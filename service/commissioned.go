@@ -7,13 +7,13 @@ import (
 	"github.com/leenawatH/pic-pick-factory/repository"
 )
 
-type commissionedService struct {
-	repository repository.CommissionedRepository
-}
-
 type CommissionedService interface {
 	GetAllCommissionedTitle() ([]entity.Item, error)
 	AddCommissionedTitle(s string) (err error)
+}
+
+type commissionedService struct {
+	repository repository.CommissionedRepository
 }
 
 func NewCommissionedService(commissionedRepository repository.CommissionedRepository) *commissionedService {

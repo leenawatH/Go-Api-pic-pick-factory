@@ -7,14 +7,13 @@ import (
 	"github.com/leenawatH/pic-pick-factory/repository"
 )
 
-type personalService struct {
-	repository repository.PeronalRepository
-}
-
 type PersonalService interface {
 	GetAllPersonalTitle() ([]entity.Item, error)
 
 	AddPersonalTitle(s string) error
+}
+type personalService struct {
+	repository repository.PeronalRepository
 }
 
 func NewPeronalService(personalRepository repository.PeronalRepository) *personalService {

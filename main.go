@@ -40,7 +40,7 @@ func main() {
 
 	ctx := context.Background()
 	opt := option.WithCredentialsFile(sdkPath)
-	_, err = firebase.NewApp(ctx, nil, opt)
+	app, err := firebase.NewApp(ctx, nil, opt)
 	if err != nil {
 		log.Fatalf("err to start firebase : %v", err)
 		return
@@ -52,6 +52,10 @@ func main() {
 	}
 
 	defer client.Close()
+
+	loginRepository := repository.NewLoginRepository(app)
+	loginService := service.NewLoginService(loginRepository)
+	loginHandler := handler.NewLoginHandler(loginService)
 
 	personalRepository := repository.NewPeronalRepository(client)
 	personalService := service.NewPeronalService(personalRepository)
@@ -68,6 +72,9 @@ func main() {
 			"message": "pong",
 		})
 	})
+
+	//Login admin
+	r.POST("/login", loginHandler.Login)
 
 	//Get All personal
 	r.GET("/personal", personalHandler.GetAllPersonalTitle)
